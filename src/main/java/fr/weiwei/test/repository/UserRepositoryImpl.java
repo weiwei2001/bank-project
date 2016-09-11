@@ -6,14 +6,13 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import javax.persistence.Query;
 
 import org.springframework.stereotype.Service;
 
 import fr.weiwei.test.jpa.User;
  
-@Service("userService")
+@Service("userRepository")
 public class UserRepositoryImpl implements UserRepository{
      
     private static final AtomicLong counter = new AtomicLong();
@@ -24,8 +23,7 @@ public class UserRepositoryImpl implements UserRepository{
     private EntityManager entityManager;
      
     public List<User> findAllUsers() {
-    	Query query = entityManager.createQuery("SELECT u from User as u");
-        return query.getResultList();
+        return (List<User>) entityManager.createQuery("from User", User.class).getResultList();
     }
      
     public User findById(long id) {
