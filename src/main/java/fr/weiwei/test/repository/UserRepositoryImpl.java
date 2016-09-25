@@ -4,26 +4,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import fr.weiwei.test.jpa.User;
  
-@Service("userRepository")
-public class UserRepositoryImpl implements UserRepository{
+
+@Repository("userRepository")
+public class UserRepositoryImpl extends AbstractDao<Integer, User> implements UserRepository{
      
     private static final AtomicLong counter = new AtomicLong();
      
     private static List<User> users;
-    
-    @PersistenceContext
-    private EntityManager entityManager;
      
     public List<User> findAllUsers() {
-        return (List<User>) entityManager.createQuery("from User", User.class).getResultList();
+        users = getEntityManager().createQuery("SELECT u FROM User u ORDER BY u.firstName ASC")
+                .getResultList();
+        return users;
     }
      
     public User findById(long id) {
