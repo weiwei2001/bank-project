@@ -31,15 +31,8 @@ public class UserServiceImpl implements UserService{
      * It will be updated in db once transaction ends. 
      */
     public void updateUser(User user) {
-        User entity = dao.findById(user.getId());
-        if(entity!=null){
-            entity.setPassword(user.getPassword());
-            entity.setFirstName(user.getFirstName());
-            entity.setLastName(user.getLastName());
-            entity.setEmail(user.getEmail());
-        }
+    	dao.updateUser(user);
     }
- 
  
     public List<User> findAllUsers() {
         return dao.findAllUsers();

@@ -2,7 +2,7 @@
  
 angular.module('myApp').controller('UserController', ['$scope', 'UserService', function($scope, UserService) {
     var self = this;
-    self.user={id:null,username:'',address:'',email:''};
+    self.user={id:null,login:'',password:'',address:'',email:''};
     self.users=[];
  
     self.submit = submit;
@@ -86,7 +86,7 @@ angular.module('myApp').controller('UserController', ['$scope', 'UserService', f
  
  
     function reset(){
-        self.user={id:null,username:'',address:'',email:''};
+        self.user={id:null,login:'',password:'',address:'',email:''};
         $scope.myForm.$setPristine(); //reset Form
     }
  

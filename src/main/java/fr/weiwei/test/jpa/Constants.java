@@ -7,6 +7,8 @@ public final class Constants {
 
     //Regex for acceptable logins
     public static final String LOGIN_REGEX = "^[_'.@A-Za-z0-9-]*$";
+    //Regex for acceptable passwords
+    public static final String PASSWORD_REGEX = "^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$";
     // Spring profile for development and production, see http://jhipster.github.io/profiles/
     public static final String SPRING_PROFILE_DEVELOPMENT = "dev";
     public static final String SPRING_PROFILE_PRODUCTION = "prod";

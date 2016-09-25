@@ -16,9 +16,9 @@ public class UserRepositoryImpl extends AbstractDao<Integer, User> implements Us
      
     private static List<User> users;
      
-    public List<User> findAllUsers() {
-        users = getEntityManager().createQuery("SELECT u FROM User u ORDER BY u.firstName ASC")
-                .getResultList();
+    @SuppressWarnings("unchecked")
+	public List<User> findAllUsers() {
+        users = getEntityManager().createQuery("SELECT u FROM User u ORDER BY u.firstName ASC").getResultList();
         return users;
     }
      
@@ -41,13 +41,11 @@ public class UserRepositoryImpl extends AbstractDao<Integer, User> implements Us
     }
      
     public void saveUser(User user) {
-        user.setId(counter.incrementAndGet());
-        users.add(user);
+    	getEntityManager().persist(user);
     }
  
     public void updateUser(User user) {
-        int index = users.indexOf(user);
-        users.set(index, user);
+        getEntityManager().merge(user);
     }
  
     public void deleteUserById(long id) {

@@ -1,16 +1,28 @@
 package fr.weiwei.test.jpa;
 
-import org.hibernate.validator.constraints.Email;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-import java.time.ZonedDateTime;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
 
 /**
  * A user.
@@ -32,8 +44,9 @@ public class User implements Serializable {
     private String login;
 
     @NotNull
-    @Size(min = 60, max = 60)
-    @Column(name = "password_hash",length = 60)
+    @Pattern(regexp = Constants.PASSWORD_REGEX)
+    @Size(min = 2, max = 60)
+    @Column(name = "password_hash",length = 60, nullable = false)
     private String password;
 
     @Size(max = 50)
@@ -43,6 +56,10 @@ public class User implements Serializable {
     @Size(max = 50)
     @Column(name = "last_name", length = 50)
     private String lastName;
+    
+    @Size(max = 100)
+    @Column(name = "address", length = 100)
+    private String address;
 
     @Email
     @Size(max = 100)
@@ -68,14 +85,14 @@ public class User implements Serializable {
     @Column(name = "reset_date", nullable = true)
     private ZonedDateTime resetDate = null;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "bank_user_authority",
         joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
         inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
     private Set<Authority> authorities = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
     private Set<PersistentToken> persistentTokens = new HashSet<>();
 
     public Long getId() {
@@ -103,7 +120,15 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getFirstName() {
+    public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getFirstName() {
         return firstName;
     }
 
@@ -212,6 +237,7 @@ public class User implements Serializable {
             "login='" + login + '\'' +
             ", firstName='" + firstName + '\'' +
             ", lastName='" + lastName + '\'' +
+            ", address='" + address + '\'' +
             ", email='" + email + '\'' +
             ", activated='" + activated + '\'' +
             ", langKey='" + langKey + '\'' +
