@@ -15,14 +15,14 @@ import fr.weiwei.test.repository.UserRepository;
 public class UserServiceImpl implements UserService{
  
     @Autowired
-    private UserRepository dao;
+    private UserRepository userRepository;
  
     public User findById(long id) {
-        return dao.findById(id);
+        return userRepository.findById(id);
     }
  
     public void saveUser(User user) {
-        dao.saveUser(user);
+    	userRepository.saveUser(user);
     }
  
     /*
@@ -31,15 +31,20 @@ public class UserServiceImpl implements UserService{
      * It will be updated in db once transaction ends. 
      */
     public void updateUser(User user) {
-    	dao.updateUser(user);
+    	userRepository.updateUser(user);
     }
  
     public List<User> findAllUsers() {
-        return dao.findAllUsers();
+        return userRepository.findAllUsers();
     }
 
 	@Override
 	public boolean isUserExist(User user) {
-		return dao.isUserExist(user);
+		return userRepository.isUserExist(user);
+	}
+
+	@Override
+	public void deleteUserById(Long id) {
+		userRepository.deleteUserById(id);
 	}
 }

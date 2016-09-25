@@ -1,8 +1,6 @@
 package fr.weiwei.test.repository;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.stereotype.Repository;
 
@@ -10,25 +8,18 @@ import fr.weiwei.test.jpa.User;
  
 
 @Repository("userRepository")
-public class UserRepositoryImpl extends AbstractDao<Integer, User> implements UserRepository{
-     
-    private static final AtomicLong counter = new AtomicLong();
+public class UserRepositoryImpl extends AbstractDao<Long, User> implements UserRepository{
      
     private static List<User> users;
      
-    @SuppressWarnings("unchecked")
 	public List<User> findAllUsers() {
-        users = getEntityManager().createQuery("SELECT u FROM User u ORDER BY u.firstName ASC").getResultList();
+        users = this.findAll();
         return users;
     }
      
     public User findById(long id) {
-        for(User user : users){
-            if(user.getId() == id){
-                return user;
-            }
-        }
-        return null;
+        User user = this.getByKey(id);
+        return user;
     }
      
     public User findByLogin(String login) {
@@ -41,21 +32,18 @@ public class UserRepositoryImpl extends AbstractDao<Integer, User> implements Us
     }
      
     public void saveUser(User user) {
-    	getEntityManager().persist(user);
+    	this.persist(user);
     }
  
     public void updateUser(User user) {
-        getEntityManager().merge(user);
+        this.update(user);
     }
  
     public void deleteUserById(long id) {
-         
-        for (Iterator<User> iterator = users.iterator(); iterator.hasNext(); ) {
-            User user = iterator.next();
-            if (user.getId() == id) {
-                iterator.remove();
-            }
-        }
+    	User user = this.findById(id);
+    	if (user != null) {
+    		this.delete(user);
+    	}
     }
  
     public boolean isUserExist(User user) {

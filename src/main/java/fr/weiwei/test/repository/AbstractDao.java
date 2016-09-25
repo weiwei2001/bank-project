@@ -2,7 +2,8 @@ package fr.weiwei.test.repository;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
- 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
  
@@ -21,7 +22,12 @@ public abstract class AbstractDao<PK extends Serializable, T> {
     protected EntityManager getEntityManager(){
         return this.entityManager;
     }
- 
+    
+	@SuppressWarnings("unchecked")
+	public List<T> findAll() {
+		return entityManager.createQuery("Select t from " + persistentClass.getSimpleName() + " t").getResultList();
+	}
+
     protected T getByKey(PK key) {
         return (T) entityManager.find(persistentClass, key);
     }

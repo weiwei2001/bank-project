@@ -86,22 +86,22 @@ public class AppController {
      
     //------------------- Delete a User --------------------------------------------------------
       
-//    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
-//    public ResponseEntity<User> deleteUser(@PathVariable("id") long id) {
-//        System.out.println("Fetching & Deleting User with id " + id);
-//  
-//        User user = userService.findById(id);
-//        if (user == null) {
-//            System.out.println("Unable to delete. User with id " + id + " not found");
-//            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-//        }
-//  
-//        userService.deleteUserById(id);
-//        return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-//    }
-//  
-//      
-//     
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<User> deleteUser(@PathVariable("id") long id) {
+        System.out.println("Fetching & Deleting User with id " + id);
+  
+        User user = userService.findById(id);
+        if (user == null) {
+            System.out.println("Unable to delete. User with id " + id + " not found");
+            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+        }
+  
+        userService.deleteUserById(id);
+        return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
+    }
+  
+      
+     
 //    //------------------- Delete All Users --------------------------------------------------------
 //      
 //    @RequestMapping(value = "/user/", method = RequestMethod.DELETE)
