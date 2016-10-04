@@ -1,13 +1,12 @@
 package fr.weiwei.test.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.format.FormatterRegistry;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -16,8 +15,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-import fr.weiwei.test.converter.RoleToUserConverter;
- 
  
 @Configuration
 @Import(JpaConfiguration.class)
@@ -26,10 +23,6 @@ import fr.weiwei.test.converter.RoleToUserConverter;
 public class AppConfig extends WebMvcConfigurerAdapter{
      
      
-    @Autowired
-    RoleToUserConverter roleToUserConverter;
-     
- 
     /**
      * Configure ViewResolvers to deliver preferred views.
      */
@@ -52,16 +45,6 @@ public class AppConfig extends WebMvcConfigurerAdapter{
     }
      
     /**
-     * Configure Converter to be used.
-     * In our example, we need a converter to convert string values[Roles] to UserProfiles in newUser.jsp
-     */
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(roleToUserConverter);
-    }
-     
- 
-    /**
      * Configure MessageSource to lookup any validation/error message in internationalized property files
      */
     @Bean
@@ -80,5 +63,10 @@ public class AppConfig extends WebMvcConfigurerAdapter{
     public void configurePathMatch(PathMatchConfigurer matcher) {
         matcher.setUseRegisteredSuffixPatternMatch(true);
     }
+    
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**");
+	}
      
 }

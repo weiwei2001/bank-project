@@ -127,6 +127,6 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-		<finalName>BankProject</finalName>
+		<finalName>bank</finalName>
 	</build>
 </project>
