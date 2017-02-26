@@ -23,7 +23,10 @@ public class AppController {
     @Autowired
     UserService userService;  //TODO Service which will do all data retrieval/manipulation work
   
-     
+    //http://websystique.com/springmvc/spring-mvc-4-angularjs-example/
+	//http://websystique.com/springmvc/spring-4-mvc-jpa2-hibernate-many-to-many-example/
+    //http://websystique.com/springmvc/spring-4-mvc-angularjs-routing-example-using-ui-router/
+    
     //-------------------Retrieve All Users--------------------------------------------------------
     @RequestMapping(value = "/user/", method = RequestMethod.GET)
     public ResponseEntity<List<User>> listAllUsers() {
